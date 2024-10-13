@@ -1,0 +1,23 @@
+void Nav.push_rec_to_books(int id)
+{
+	N_concrete = NDIS_Concrete[ID == id];
+	listVar = List();
+	//iterating each row in the subform
+	for each  line in N_concrete.Item_Table
+	{
+		item_data = Concrete_Data[ID == line.Key_Word];
+		mapVar = Map();
+		mapVar.put("item_id",item_data.Item_ID);
+		mapVar.put("name",item_data.Key_Word);
+		mapVar.put("rate",line.RATE);
+		mapVar.put("total",line.Total_Labour_materials_Inc_margin);
+		listVar.add(mapVar);
+	}
+	info listVar;
+	quoteData = Map();
+	quoteData.put("customer_id",N_concrete.customer_ID);
+	quoteData.put("date",N_concrete.Date_field);
+	quoteData.put("line_items",listVar);
+concrete = zoho.books.createRecord("estimates","7004425295",quoteData,"zoho_books_connection");
+	info concrete;
+}
