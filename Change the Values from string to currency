@@ -1,0 +1,15 @@
+void Nav.text_currency()
+{
+	Rec = Timber_Data[ID != null];
+		for each  reco in Rec
+		{
+			if(reco.Total_Labour_materials_Inc_margin.length() != 0)
+			{
+				ad_rec = reco.Total_Labour_materials_Inc_margin.subString(1);
+				dec_val = ad_rec.replaceAll(",","");
+				dec_lab = dec_val.toDecimal();
+				reco.Total_Labour_materials_Inc_margin1=dec_lab;
+				info reco.Total_Labour_materials_Inc_margin1;
+			}
+		}
+}
