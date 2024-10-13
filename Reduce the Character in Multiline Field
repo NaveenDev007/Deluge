@@ -1,0 +1,21 @@
+void Nav.Split_character()
+{
+	record1 = Timber_Data[SCOPE_LINE_ITEM != null];
+	count = 0;
+	for each  rec in record1
+	{
+		leng = rec.SCOPE_LINE_ITEM.len();
+		if(leng < 99)
+		{
+			//info leng ;
+			rec.Key_Word=rec.SCOPE_LINE_ITEM;
+		}
+		else
+		{
+			get_100_char = rec.SCOPE_LINE_ITEM.subString(0,99);
+			info get_100_char;
+			rec.Key_Word=get_100_char;
+		}
+	}
+	info count;
+}
