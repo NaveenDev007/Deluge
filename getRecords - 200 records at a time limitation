@@ -1,0 +1,26 @@
+iterations = "".leftpad(20 - 1).toList("");
+pageCounter = 1;
+numRecords = 0;
+for each iteration in iterations
+{
+page = pageCounter;
+perPage = 200;
+query = Map();
+RecordsListBatch = zoho.crm.getRecords("contacts",page,perPage,query);
+if(RecordsListBatch.isEmpty())
+{
+break;
+}
+//ACTION HANDLING OF ITERATION
+for each record in RecordsListBatch
+{
+ID = record.get("Accounting_ID");
+ContactID = record.get("id");
+}
+info RecordsListBatch.size();
+pageCounter = pageCounter + 1;
+numRecords = numRecords + RecordsListBatch.size();
+}
+info "Pages Iterated: " + pageCounter;
+info "Total Records Fetched: " + numRecords;
+return "Success";
