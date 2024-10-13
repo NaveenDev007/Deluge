@@ -1,0 +1,47 @@
+dealdata = zoho.crm.getRecordById("Deals",dealid);
+rmmap=map();
+rmmap.put("Name", ifNull(dealdata.get("Contact_Name").get("name"),""));
+rmmap.put("Company_Name", dealdata.get("Account_Name"));
+rmmap.put("Registration_Handler", dealdata.get("Registration_Handler1"));
+rmmap.put("License_Issuance", dealdata.get("License_Issuance"));
+rmmap.put("Send_Registration_Link", dealdata.get("Send_Registration_Link"));
+rmmap.put("Trade_License_Number", dealdata.get("Number_of_License"));
+rmmap.put("Application_Submission", dealdata.get("Application_Submission"));
+rmmap.put("License_Expiry", dealdata.get("License_Expiry"));
+rmmap.put("Does_Company_have_Establishment_Card", dealdata.get("Does_Company_have_Establishment_Card"));
+rmmap.put("License_Packages", dealdata.get("License_Packages"));
+rmmap.put("License_Duration", dealdata.get("License_Duration1"));
+rmmap.put("Authority1", dealdata.get("Authority"));
+rmmap.put("Visa_Packages", dealdata.get("Visa_Packages"));
+rmmap.put("License_Management_Fees", dealdata.get("License_Management_Fees"));
+rmmap.put("Registration_Invoice_Number", dealdata.get("Registration_Invoice_Number"));
+fileid=dealdata.get("Documents_Attachment").getJSON("file_Id");
+getFile = invokeurl
+[
+	url :"https://www.zohoapis.com/crm/v5/files?id=" + fileid
+	type :GET
+	connection:"zcrm"
+];
+// info getFile;
+getFile.setParamName("file");
+//========Upload File to ZFS====//
+uploadFile = invokeurl
+[
+	url :"https://www.zohoapis.com/crm/v5/files"
+	type :POST
+	files:getFile
+	connection:"zcrm"
+];
+// info uploadFile;
+////======Get uploaded file Id===///
+uploadFileId = uploadFile.get("data").get(0).get("details").get("id");
+// info uploadFileId;
+filelist = List();
+fmp = map();
+fmp.put("file_id",uploadFileId);
+filelist.add(fmp);
+// info filelist;
+mp = map();
+rmmap.put("Documents_Attachment",filelist);
+response=zoho.crm.createRecord("Relationship_Manager", rmmap);
+// info response;
