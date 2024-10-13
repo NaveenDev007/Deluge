@@ -1,0 +1,10 @@
+FruitMaster = Fruits[ID != 0];
+​	rows_collection = Collection();
+	for each  data in FruitMaster
+	{
+		row1 = CurrentForm.Current_SubForm();
+		row1.Fruit=data.ID;
+		row1.Rate=data.Amount;
+​		rows_collection.insert(row1);
+	}
+	input.Current_SubForm.insert(rows_collection);
