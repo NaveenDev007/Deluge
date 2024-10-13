@@ -1,0 +1,48 @@
+void Nav.push_allConcreteItems_to_books()
+{
+	lis = List();
+	// 	try 
+	// 	{
+	timber = Timber_Data[ID != null && Item_ID == ""];
+	for each  item in timber
+	{
+		itemData = Map();
+		itemData.put("name",item.Key_Word);
+		itemData.put("rate",item.RATE);
+		itemData.put("description",item.SCOPE_LINE_ITEM);
+		// Check if the item already exists in Zoho Books
+		encoded_name = encodeUrl(item.Key_Word);
+		searchCriteria = "name=" + encoded_name;
+		//info searchCriteria;
+		existingItems = zoho.books.getRecords("Items","7004425295",searchCriteria,"zoho_books_connection");
+		//info existingItems + " =====/n";
+		if(existingItems.get("items") != {})
+		{
+			// Item already exists, handle accordingly
+			itemID = existingItems.get("items").getJSON("item_id");
+			info itemID + "test";
+		}
+		else
+		{
+			// Create a new item in Zoho Books
+			response = zoho.books.createRecord("Items","7004425295",itemData,"zoho_books_connection");
+			info response;
+			itemID = response.get("item").get("item_id").toNumber();
+			info "test1";
+		}
+		// Update Zoho Creator with the item ID
+		updateMap = Map();
+		updateMap.put("Item_ID",itemID);
+		otherParams = Map();
+		get_id = Timber_Data[ID == item.ID];
+		get_id.Item_ID=itemID;
+		get_Id = zoho.creator.updateRecord("gpmgw0","gemini","Timber_data_Report",item.get("ID"),updateMap,otherParams,"zoho_books_connection");
+	}
+	// 	}
+	// 	catch (e)
+	// 	{
+	// 		info e;
+	// 		lis.add(item.ID);
+	// 		info lis;
+	// 	}
+}
